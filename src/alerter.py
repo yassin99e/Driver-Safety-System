@@ -19,19 +19,23 @@ class AudioAlerter:
         self.current_playing = None
         
     def play_alert(self, alert_type):
-        """Play the appropriate alert sound.
+        """Play the appropriate alert sound in loop.
         
         Args:
             alert_type: 'sleep' or 'tired'
         """
         if alert_type not in self.sounds:
             return
+        
+        # If same alert is already playing, don't restart
+        if self.current_playing == alert_type and self.is_playing():
+            return
             
         # Stop any currently playing sound
         pygame.mixer.stop()
         
-        # Play the alert
-        self.sounds[alert_type].play()
+        # Play the alert in loop (-1 means infinite loop)
+        self.sounds[alert_type].play(loops=-1)
         self.current_playing = alert_type
         
     def stop(self):

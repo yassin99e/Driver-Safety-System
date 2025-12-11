@@ -51,13 +51,15 @@ def main():
             # Update logic
             should_alert, alert_type, elapsed_time = logic.update(class_id)
             
-            # Trigger alert if needed
-            if should_alert:
-                print(f"⚠ ALERT TRIGGERED: {alert_type.upper()}!")
-                alerter.play_alert(alert_type)
-            
             # Get status for visualization
             status = logic.get_status()
+            
+            # Handle alerts - play when in danger, stop when safe
+            if should_alert:
+                alerter.play_alert(alert_type)
+            elif not status['is_danger']:
+                # Stop audio when back to awake state
+                alerter.stop()
             
             # Visualize
             if class_id is not None:

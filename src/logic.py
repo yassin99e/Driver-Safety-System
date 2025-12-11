@@ -51,8 +51,8 @@ class DrowsinessLogic:
         # Calculate elapsed time in danger state
         elapsed_time = current_time - self.danger_start_time
         
-        # Check if threshold exceeded and alert not yet triggered
-        if elapsed_time >= self.threshold and not self.alert_triggered:
+        # Check if threshold exceeded - continuously return alert status
+        if elapsed_time >= self.threshold:
             self.alert_triggered = True
             alert_type = 'sleep' if class_id == 1 else 'tired'
             return True, alert_type, elapsed_time
