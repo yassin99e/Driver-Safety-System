@@ -5,7 +5,7 @@ A real-time driver drowsiness detection system using YOLOv8 and computer vision 
 ## 📋 Informations du Projet
 
 - **Author**: Yassine Ben Akki
-- **Supervisor**: Prof. AbdelMounaim Kerkri
+- **Supervisor**: Prof. Kamal AZGHIOU
 - **Institution**: ENSA Oujda
 - **Academic Year**: 2025-2026
 
@@ -177,11 +177,11 @@ This project is open source and available for educational and research purposes.
 
 ## 📧 Contact
 
-**Github** : [@yassin99e](https://github.com/yassin99e)
-**Auteur** : Yassine Ben Akki  
-**Email**: [yassine.benakki@ump.ac.ma](mailto:yassine.benakki@ump.ac.ma)
-**Institution** : ENSA Oujda  
-**Année** : 2025-2026
+- **GitHub**: [@yassin99e](https://github.com/yassin99e)
+- **Author**: Yassine Ben Akki
+- **Email**: [yassine.benakki@ump.ac.ma](mailto:yassine.benakki@ump.ac.ma)
+- **Institution**: ENSA Oujda
+- **Academic Year**: 2025–2026
 
 ## 🙏 Acknowledgments
 
@@ -192,4 +192,5 @@ This project is open source and available for educational and research purposes.
 ---
 
 **⚡ Stay Alert, Stay Safe!** 
+
 
