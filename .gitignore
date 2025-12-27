@@ -51,3 +51,6 @@ wandb/
 
 # Logs
 *.log
+
+# Rapport 
+*.tex
