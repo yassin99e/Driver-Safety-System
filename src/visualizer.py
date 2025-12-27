@@ -18,6 +18,8 @@ class Visualizer:
             1: BOX_COLOR_SLEEP,  # sleep - red
             2: BOX_COLOR_TIRED   # tired - orange
         }
+        self.window_name = "Driver Drowsiness Detection"
+        self.window_initialized = False
         
     def draw_detection(self, frame, class_id, confidence, bbox):
         """Draw bounding box and label on frame.
@@ -153,11 +155,20 @@ class Visualizer:
         
         return frame
     
-    def show_frame(self, frame, window_name="Driver Drowsiness Detection"):
+    def show_frame(self, frame, window_name=None):
         """Display frame in window.
         
         Args:
             frame: OpenCV image
-            window_name: Name of display window
+            window_name: Name of display window (optional)
         """
+        if window_name is None:
+            window_name = self.window_name
+            
+        # Initialize window once with a smaller size
+        if not self.window_initialized:
+            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+            cv2.resizeWindow(window_name, 800, 600)  # Smaller window
+            self.window_initialized = True
+        
         cv2.imshow(window_name, frame)

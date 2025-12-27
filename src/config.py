@@ -16,7 +16,7 @@ CLASS_NAMES = {
 }
 
 # Alert configuration
-ALERT_THRESHOLD_SECONDS = 5.0  # Duration threshold for triggering alerts
+ALERT_THRESHOLD_SECONDS = 3  # Duration threshold for triggering alerts
 SOUND_SLEEP = ROOT_DIR / "assets" / "sounds" / "sleep.wav"
 SOUND_TIRED = ROOT_DIR / "assets" / "sounds" / "tired.wav"
 

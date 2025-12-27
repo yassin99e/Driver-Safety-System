@@ -1,146 +1,146 @@
-﻿# Driver Drowsiness Detection System 🚗💤
+﻿# Système de Détection de Somnolence du Conducteur 🚗💤
 
-A real-time driver drowsiness detection system using YOLOv8 and computer vision to enhance road safety by monitoring driver alertness and triggering audio alerts when signs of fatigue are detected.
+Un système de détection de somnolence en temps réel utilisant YOLOv8 et la vision par ordinateur pour améliorer la sécurité routière en surveillant l'état d'alerte du conducteur et en déclenchant des alertes sonores lorsque des signes de fatigue sont détectés.
 
 ## 📋 Informations du Projet
 
-- **Author**: Yassine Ben Akki
-- **Supervisor**: Prof. Kamal AZGHIOU
-- **Institution**: ENSA Oujda
-- **Academic Year**: 2025-2026
+- **Auteur**: Yassine Ben Akki
+- **Encadrant**: Prof. Kamal AZGHIOU
+- **Établissement**: ENSA Oujda
+- **Année Universitaire**: 2025-2026
 
 
-## 📋 Overview
+## 📋 Aperçu Général
 
-This system uses a fine-tuned YOLOv8 model to detect three driver states:
-- **Awake** - Driver is alert and focused
-- **Tired** - Driver shows signs of fatigue
-- **Sleep** - Driver is falling asleep
+Ce système utilise un modèle YOLOv8 fine-tuné pour détecter trois états du conducteur :
+- **Éveillé (Awake)** - Le conducteur est alerte et concentré
+- **Fatigué (Tired)** - Le conducteur montre des signes de fatigue
+- **Endormi (Sleep)** - Le conducteur s'endort
 
-When the system detects continuous danger states (tired or sleeping) for 5 seconds, it triggers an audio alarm to alert the driver.
+Lorsque le système détecte des états de danger continus (fatigué ou endormi) pendant 3 secondes, il déclenche une alarme sonore pour alerter le conducteur.
 
-## ✨ Features
+## ✨ Fonctionnalités
 
-- **Real-time Detection**: Processes webcam feed in real-time using YOLOv8
-- **Smart State Tracking**: Accumulates danger time across tired and sleep states
-- **Audio Alerts**: Continuous alarm playback until driver returns to awake state
-- **Visual Feedback**: 
-  - Color-coded bounding boxes (Green/Orange/Red)
-  - Alert banners ("ALERT: SLEEPING!" / "ALERT: TIRED!")
-  - Real-time danger timer display
-- **Modular Architecture**: Clean, maintainable code structure
+- **Détection en Temps Réel** : Traite le flux vidéo de la webcam en temps réel avec YOLOv8
+- **Suivi Intelligent des États** : Accumule le temps de danger entre les états fatigué et endormi
+- **Alertes Sonores** : Lecture continue de l'alarme jusqu'au retour à l'état éveillé
+- **Retour Visuel** : 
+  - Boîtes englobantes colorées (Vert/Orange/Rouge)
+  - Bannières d'alerte ("ALERT: SLEEPING!" / "ALERT: TIRED!")
+  - Affichage du timer de danger en temps réel
+- **Architecture Modulaire** : Structure de code propre et maintenable
 
-## 🚀 How It Works
+## 🚀 Fonctionnement
 
-1. **Capture**: OpenCV captures video frames from webcam
-2. **Detect**: Fine-tuned YOLOv8 model analyzes each frame
-3. **Track**: Logic module accumulates time spent in danger states (tired/sleep)
-4. **Alert**: After 5 seconds in danger state, triggers continuous audio alarm
-5. **Reset**: Returns to monitoring when driver becomes awake again
+1. **Capture** : OpenCV capture les images vidéo depuis la webcam
+2. **Détection** : Le modèle YOLOv8 fine-tuné analyse chaque frame
+3. **Suivi** : Le module de logique accumule le temps passé dans les états de danger (fatigué/endormi)
+4. **Alerte** : Après 3 secondes en état de danger, déclenche une alarme sonore continue
+5. **Réinitialisation** : Retour à la surveillance normale lorsque le conducteur devient éveillé
 
-### State Logic
-- **Tired → Sleep**: Counter continues (both are danger states)
-- **Sleep → Tired**: Counter continues (both are danger states)
-- **Awake detected**: Counter resets, alarm stops
+### Logique des États
+- **Fatigué → Endormi** : Le compteur continue (les deux sont des états de danger)
+- **Endormi → Fatigué** : Le compteur continue (les deux sont des états de danger)
+- **Éveillé détecté** : Le compteur se réinitialise, l'alarme s'arrête
 
 ## 🛠️ Installation
 
-### Prerequisites
-- Python 3.8 or higher
+### Prérequis
+- Python 3.8 ou supérieur
 - Webcam
 
-### Setup
+### Configuration
 
-1. **Clone the repository**
+1. **Cloner le dépôt**
 ```bash
 git clone https://github.com/yassin99e/Driver-Safety-System.git
 cd Driver-Safety-System
 ```
 
-2. **Create virtual environment** (recommended)
+2. **Créer un environnement virtuel** (recommandé)
 ```bash
 python -m venv .venv
 .venv\Scripts\activate  # Windows
 # source .venv/bin/activate  # Linux/Mac
 ```
 
-3. **Install dependencies**
+3. **Installer les dépendances**
 ```bash
 pip install -r requirements.txt
 ```
 
-## 📦 Project Structure
+## 📦 Structure du Projet
 
 ```
 driver_safety_system/
 │
-├── main.py                 # Main application entry point
-├── requirements.txt        # Python dependencies
+├── main.py                 # Point d'entrée de l'application
+├── requirements.txt        # Dépendances Python
 ├── README.md              # Documentation
 │
 ├── assets/
 │   ├── models/
-│   │   └── best-2.pt      # Fine-tuned YOLOv8 model weights
+│   │   └── best-2.pt      # Poids du modèle YOLOv8 fine-tuné
 │   └── sounds/
-│       ├── sleep.wav      # Sleep alert audio
-│       └── tired.wav      # Tired alert audio
+│       ├── sleep.wav      # Audio d'alerte pour endormi
+│       └── tired.wav      # Audio d'alerte pour fatigué
 │
 └── src/
     ├── __init__.py
-    ├── config.py          # Configuration settings
-    ├── detector.py        # YOLOv8 detection module
-    ├── logic.py           # State tracking and alert logic
-    ├── alerter.py         # Audio playback management
-    └── visualizer.py      # OpenCV visualization
+    ├── config.py          # Paramètres de configuration
+    ├── detector.py        # Module de détection YOLOv8
+    ├── logic.py           # Logique de suivi d'état et d'alerte
+    ├── alerter.py         # Gestion de la lecture audio
+    └── visualizer.py      # Visualisation OpenCV
 ```
 
-## 💻 Usage
+## 💻 Utilisation
 
-Run the application:
+Exécuter l'application :
 ```bash
 python main.py
 ```
 
-**Controls:**
-- Press `q` to quit the application
+**Contrôles :**
+- Appuyer sur `q` pour quitter l'application
 
-**What you'll see:**
-- Live webcam feed with detection bounding boxes
-- Current state labels with confidence scores
-- Danger timer (when in tired/sleep state)
-- Alert banners when threshold exceeded
-- Audio alarms playing continuously until awake
+**Ce que vous verrez :**
+- Flux vidéo en direct avec boîtes englobantes de détection
+- Labels d'état actuel avec scores de confiance
+- Timer de danger (lorsqu'en état fatigué/endormi)
+- Bannières d'alerte lorsque le seuil est dépassé
+- Alarmes sonores jouant en continu jusqu'à l'état éveillé
 
 ## ⚙️ Configuration
 
-Edit `src/config.py` to customize:
+Modifier `src/config.py` pour personnaliser :
 
 ```python
-# Alert threshold (seconds)
-ALERT_THRESHOLD_SECONDS = 5.0
+# Seuil d'alerte (secondes)
+ALERT_THRESHOLD_SECONDS = 3.0
 
-# Camera settings
+# Paramètres de la caméra
 CAMERA_INDEX = 0
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 480
 
-# Detection confidence
+# Seuil de confiance de détection
 CONFIDENCE_THRESHOLD = 0.5
 
-# Colors and visualization
-BOX_COLOR_AWAKE = (0, 255, 0)
-BOX_COLOR_TIRED = (0, 165, 255)
-BOX_COLOR_SLEEP = (0, 0, 255)
+# Couleurs et visualisation
+BOX_COLOR_AWAKE = (0, 255, 0)      # Vert
+BOX_COLOR_TIRED = (0, 165, 255)    # Orange
+BOX_COLOR_SLEEP = (0, 0, 255)      # Rouge
 ```
 
-## 📊 Model Details
+## 📊 Détails du Modèle
 
-- **Framework**: YOLOv8 (Ultralytics)
-- **Training**: Fine-tuned on custom drowsiness detection dataset
-- **Classes**: 3 (awake, sleep, tired)
-- **Model File**: `assets/models/best-2.pt`
+- **Framework** : YOLOv8 (Ultralytics)
+- **Entraînement** : Fine-tuné sur un dataset personnalisé de détection de somnolence
+- **Classes** : 3 (éveillé, endormi, fatigué)
+- **Fichier du Modèle** : `assets/models/best-2.pt`
 
-## 📋 Requirements
+## 📋 Dépendances
 
 - ultralytics>=8.0.0
 - opencv-python>=4.8.0
@@ -150,47 +150,47 @@ BOX_COLOR_SLEEP = (0, 0, 255)
 - numpy>=1.24.0
 - Pillow>=10.0.0
 
-## 🎯 Use Cases
+## 🎯 Cas d'Usage
 
-- Driver monitoring systems in vehicles
-- Fleet management safety
-- Research on driver attention and fatigue
-- Educational demonstrations of computer vision applications
+- Systèmes de surveillance du conducteur dans les véhicules
+- Sécurité de gestion de flotte
+- Recherche sur l'attention et la fatigue du conducteur
+- Démonstrations éducatives d'applications de vision par ordinateur
 
 ## ⚠️ Limitations
 
-- Requires good lighting conditions
-- Camera must have clear view of driver's face
-- Performance depends on model accuracy
-- Not a substitute for proper rest
+- Nécessite de bonnes conditions d'éclairage
+- La caméra doit avoir une vue dégagée du visage du conducteur
+- Les performances dépendent de la précision du modèle
+- Ne remplace pas un repos approprié
 
-## 🤝 Contributing
+## 🤝 Contribution
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest features
-- Submit pull requests
+Les contributions sont les bienvenues ! N'hésitez pas à :
+- Signaler des bugs
+- Suggérer des fonctionnalités
+- Soumettre des pull requests
 
-## 📝 License
+## 📝 Licence
 
-This project is open source and available for educational and research purposes.
+Ce projet est open source et disponible à des fins éducatives et de recherche.
 
 ## 📧 Contact
 
-- **GitHub**: [@yassin99e](https://github.com/yassin99e)
-- **Author**: Yassine Ben Akki
-- **Email**: [yassine.benakki@ump.ac.ma](mailto:yassine.benakki@ump.ac.ma)
-- **Institution**: ENSA Oujda
-- **Academic Year**: 2025–2026
+- **GitHub** : [@yassin99e](https://github.com/yassin99e)
+- **Auteur** : Yassine Ben Akki
+- **Email** : [yassine.benakki@ump.ac.ma](mailto:yassine.benakki@ump.ac.ma)
+- **Établissement** : ENSA Oujda
+- **Année Universitaire** : 2025–2026
 
-## 🙏 Acknowledgments
+## 🙏 Remerciements
 
-- YOLOv8 by Ultralytics
-- OpenCV community
-- Dataset contributors
+- YOLOv8 par Ultralytics
+- Communauté OpenCV
+- Contributeurs du dataset
 
 ---
 
-**⚡ Stay Alert, Stay Safe!** 
+**⚡ Restez Vigilant, Restez en Sécurité !** 
 
 
