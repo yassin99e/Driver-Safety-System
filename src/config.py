@@ -22,6 +22,7 @@ SOUND_TIRED = ROOT_DIR / "assets" / "sounds" / "tired.wav"
 
 # Camera configuration
 CAMERA_INDEX = 0
+
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 480
 FPS = 30
@@ -35,3 +36,31 @@ ALERT_TEXT_COLOR = (0, 0, 255)   # Red
 FONT_SCALE = 0.6
 FONT_THICKNESS = 2
 BOX_THICKNESS = 2
+
+# GUI Configuration
+GUI_WINDOW_TITLE = "Driver Safety System - Drowsiness Detection"
+GUI_WINDOW_WIDTH = 1200
+GUI_WINDOW_HEIGHT = 800
+GUI_MIN_WIDTH = 800
+GUI_MIN_HEIGHT = 600
+
+# GUI Colors (RGB for PyQt)
+GUI_COLOR_AWAKE = "#00FF00"      # Green
+GUI_COLOR_TIRED = "#FFA500"      # Orange
+GUI_COLOR_SLEEP = "#FF0000"      # Red
+GUI_COLOR_SAFE = "#4CAF50"       # Material Green
+GUI_COLOR_DANGER = "#F44336"     # Material Red
+GUI_COLOR_WARNING = "#FF9800"    # Material Orange
+GUI_BACKGROUND = "#2C3E50"       # Dark blue-gray
+GUI_PANEL_BACKGROUND = "#34495E" # Lighter blue-gray
+GUI_TEXT_PRIMARY = "#FFFFFF"     # White
+GUI_TEXT_SECONDARY = "#BDC3C7"   # Light gray
+
+# Session settings
+SESSION_LOG_DIRECTORY = ROOT_DIR / "logs"
+SESSION_LOG_FORMAT = "session_%Y%m%d_%H%M%S.csv"
+
+# Video display settings
+VIDEO_DISPLAY_WIDTH = 640
+VIDEO_DISPLAY_HEIGHT = 480
+VIDEO_UPDATE_INTERVAL_MS = 30  # ~33 FPS

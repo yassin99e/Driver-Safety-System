@@ -1,94 +1,57 @@
-import cv2
+"""
+Driver Safety System - PyQt GUI Application
+
+A real-time drowsiness detection system with modern GUI interface.
+This application uses YOLOv8 for detecting driver states (awake/tired/sleep)
+and provides visual alerts and session tracking.
+
+Author: Yassine Ben Akki
+Institution: ENSA Oujda
+Year: 2025-2026
+"""
+
 import sys
-from src.config import CAMERA_INDEX, FRAME_WIDTH, FRAME_HEIGHT
-from src.detector import DrowsinessDetector
-from src.logic import DrowsinessLogic
-from src.alerter import AudioAlerter
-from src.visualizer import Visualizer
+import os
+
+# CRITICAL FIX for Windows DLL loading issue:
+# Force torch to load BEFORE PyQt6 to avoid DLL conflicts
+# This must happen before any GUI imports
+try:
+    import torch
+    _ = torch.tensor([1.0])  # Initialize torch to load all DLLs
+except Exception as e:
+    print(f"Warning: Could not pre-load torch: {e}")
+
+# Add DLL directory to PATH for Windows (helps with missing dependencies)
+if sys.platform == "win32":
+    torch_lib_path = os.path.join(os.path.dirname(torch.__file__), "lib")
+    if os.path.exists(torch_lib_path):
+        os.add_dll_directory(torch_lib_path)
+
+from PyQt6.QtWidgets import QApplication
+from src.gui.main_window import MainWindow
 
 
 def main():
-    """Main application loop."""
-    print("Initializing Driver Drowsiness Detection System...")
+    """Main entry point for the GUI application."""
+    # Create application
+    app = QApplication(sys.argv)
+    app.setApplicationName("Driver Safety System")
+    app.setOrganizationName("ENSA Oujda")
     
-    # Initialize components
-    try:
-        detector = DrowsinessDetector()
-        logic = DrowsinessLogic()
-        alerter = AudioAlerter()
-        visualizer = Visualizer()
-        print("✓ All components initialized successfully")
-    except Exception as e:
-        print(f"✗ Error initializing components: {e}")
-        return
+    # Set application-wide stylesheet for dark theme
+    app.setStyleSheet("""
+        QWidget {
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+    """)
     
-    # Initialize camera
-    print(f"Opening camera {CAMERA_INDEX}...")
-    cap = cv2.VideoCapture(CAMERA_INDEX)
+    # Create and show main window
+    window = MainWindow()
+    window.show()
     
-    if not cap.isOpened():
-        print("✗ Error: Could not open camera")
-        return
-        
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
-    print("✓ Camera opened successfully")
-    
-    print("\nStarting detection... Press 'q' to quit\n")
-    
-    try:
-        while True:
-            # Capture frame
-            ret, frame = cap.read()
-            
-            if not ret:
-                print("Failed to grab frame")
-                break
-            
-            # Run detection
-            class_id, confidence, bbox = detector.detect(frame)
-            
-            # Update logic
-            should_alert, alert_type, elapsed_time = logic.update(class_id)
-            
-            # Get status for visualization
-            status = logic.get_status()
-            
-            # Handle alerts - play when in danger, stop when safe
-            if should_alert:
-                alerter.play_alert(alert_type)
-            elif not status['is_danger']:
-                # Stop audio when back to awake state
-                alerter.stop()
-            
-            # Visualize
-            if class_id is not None:
-                frame = visualizer.draw_detection(frame, class_id, confidence, bbox)
-            
-            if status['alert_triggered']:
-                frame = visualizer.draw_alert(frame, alert_type)
-            
-            frame = visualizer.draw_status(frame, status['elapsed_time'], status['is_danger'])
-            
-            # Display frame
-            visualizer.show_frame(frame)
-            
-            # Check for quit command
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                print("\nQuitting...")
-                break
-                
-    except KeyboardInterrupt:
-        print("\nInterrupted by user")
-    except Exception as e:
-        print(f"\nError during execution: {e}")
-    finally:
-        # Cleanup
-        print("Cleaning up...")
-        cap.release()
-        cv2.destroyAllWindows()
-        alerter.cleanup()
-        print("✓ Cleanup complete")
+    # Run application event loop
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":
